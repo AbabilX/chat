@@ -7,7 +7,7 @@ export function setAuthToken(token: string | null): void {
 }
 
 type Options = {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;
   auth?: boolean; // attach bearer token (default true)
 };

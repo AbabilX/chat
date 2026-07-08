@@ -15,3 +15,13 @@ export function createDM(userId: string): Promise<CreatedConversation> {
     body: { type: 'dm', user_id: userId },
   });
 }
+
+export function createGroup(
+  title: string,
+  memberIds: string[],
+): Promise<CreatedConversation> {
+  return request<CreatedConversation>('/conversations', {
+    method: 'POST',
+    body: { type: 'group', title, member_ids: memberIds },
+  });
+}

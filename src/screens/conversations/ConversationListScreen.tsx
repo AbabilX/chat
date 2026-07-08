@@ -6,10 +6,11 @@ import { EmptyState } from '../../components/common/EmptyState';
 import { ConversationRow } from '../../components/conversations/ConversationRow';
 import { PeopleStrip } from '../../components/conversations/PeopleStrip';
 import { FilterChips, Filter } from '../../components/conversations/FilterChips';
+import { NewChatFab } from '../../components/conversations/NewChatFab';
 import { useConversations } from '../../hooks/useConversations';
 import { useAuthStore } from '../../store/authStore';
 import { convDisplay } from '../../utils/conversation';
-import { colors, radius, spacing, typography } from '../../theme';
+import { colors, spacing, typography } from '../../theme';
 import type { TabScreenProps } from '../../navigation/types';
 
 export function ConversationListScreen({ navigation }: TabScreenProps<'DMs'>) {
@@ -32,7 +33,9 @@ export function ConversationListScreen({ navigation }: TabScreenProps<'DMs'>) {
     <Screen edges={['top']}>
       <View style={styles.header}>
         <Text style={styles.title}>Direct messages</Text>
-        <Avatar name={me?.display_name || me?.username || '?'} uri={me?.avatar_url} size={36} />
+        <Pressable onPress={() => navigation.navigate('EditProfile')}>
+          <Avatar name={me?.display_name || me?.username || '?'} uri={me?.avatar_url} size={36} />
+        </Pressable>
       </View>
       <FlatList
         data={list}
@@ -62,9 +65,10 @@ export function ConversationListScreen({ navigation }: TabScreenProps<'DMs'>) {
           )
         }
       />
-      <Pressable style={styles.fab} onPress={() => navigation.navigate('NewMessage')}>
-        <Text style={styles.fabIcon}>+</Text>
-      </Pressable>
+      <NewChatFab
+        onNewMessage={() => navigation.navigate('NewMessage')}
+        onNewGroup={() => navigation.navigate('NewGroup')}
+      />
     </Screen>
   );
 }
@@ -79,18 +83,4 @@ const styles = StyleSheet.create({
   },
   title: { ...typography.title, color: colors.text },
   listContent: { flexGrow: 1, paddingBottom: 24 },
-  fab: {
-    position: 'absolute',
-    right: spacing.xl,
-    bottom: spacing.xl,
-    width: 56,
-    height: 56,
-    borderRadius: radius.lg,
-    backgroundColor: colors.surfaceAlt,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  fabIcon: { fontSize: 30, color: colors.text, marginTop: -2 },
 });

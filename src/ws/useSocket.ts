@@ -5,6 +5,8 @@ import { useAuthStore } from '../store/authStore';
 import { useLiveStore } from '../store/liveStore';
 import { queryClient } from '../queryClient';
 import { appendMessage, reconcileAck } from '../hooks/messageCache';
+import { conversationsKey } from '../hooks/useConversations';
+import { bootstrapSync } from './bootstrap';
 import type { Frame, AckPayload, MessagePayload } from './frames';
 
 // Opens the WebSocket while logged in and routes frames into the query cache.
@@ -15,7 +17,10 @@ export function useSocket() {
   useEffect(() => {
     if (!token) return;
     const socket = new ChatSocket(token, {
-      onStatus: setStatus,
+      onStatus: (status) => {
+        setStatus(status);
+        if (status === 'open') bootstrapSync();
+      },
       onFrame: routeFrame,
     });
     setSocket(socket);
@@ -34,6 +39,9 @@ function routeFrame(frame: Frame) {
     appendMessage(message.conversation_id, message);
   } else if (frame.t === 'ack') {
     reconcileAckAllConvs(frame.d as AckPayload);
+  } else if (frame.t === 'conv') {
+    // A conversation was created/changed (e.g. added to a new group): refetch list.
+    queryClient.invalidateQueries({ queryKey: conversationsKey });
   }
 }
 

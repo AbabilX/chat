@@ -6,6 +6,8 @@ import { LoginScreen } from '../screens/auth/LoginScreen';
 import { SignupScreen } from '../screens/auth/SignupScreen';
 import { MainTabs } from './MainTabs';
 import { NewMessageScreen } from '../screens/newMessage/NewMessageScreen';
+import { NewGroupScreen } from '../screens/newGroup/NewGroupScreen';
+import { EditProfileScreen } from '../screens/profile/EditProfileScreen';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { ThreadScreen } from '../screens/chat/ThreadScreen';
 import { useAuthStore } from '../store/authStore';
@@ -40,6 +42,8 @@ export function RootNavigator() {
           <>
             <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
             <Stack.Screen name="NewMessage" component={NewMessageScreen} options={{ title: 'New message' }} />
+            <Stack.Screen name="NewGroup" component={NewGroupScreen} options={{ title: 'New group' }} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit profile' }} />
             <Stack.Screen name="Chat" component={ChatScreen} options={({ route }) => ({ title: route.params.title })} />
             <Stack.Screen name="Thread" component={ThreadScreen} options={{ title: 'Thread' }} />
           </>

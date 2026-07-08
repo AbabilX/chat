@@ -9,10 +9,11 @@ type AuthState = {
   hydrated: boolean; // true once we've checked storage on boot
   hydrate: () => Promise<void>;
   signIn: (token: string, user: User) => Promise<void>;
+  setUser: (user: User) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   token: null,
   user: null,
   hydrated: false,
@@ -31,6 +32,12 @@ export const useAuthStore = create<AuthState>((set) => ({
     setAuthToken(token);
     await saveAuth(token, user);
     set({ token, user });
+  },
+
+  setUser: async (user) => {
+    const token = get().token;
+    if (token) await saveAuth(token, user);
+    set({ user });
   },
 
   signOut: async () => {

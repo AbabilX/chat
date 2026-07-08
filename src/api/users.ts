@@ -8,3 +8,11 @@ export function searchUsers(q: string): Promise<User[]> {
     `/users/search?q=${encodeURIComponent(q.trim())}`,
   ).then((r) => r.users);
 }
+
+// PATCH /me — update avatar and/or cover URL, returns the fresh user.
+export function updateProfile(body: {
+  avatar_url?: string;
+  cover_url?: string;
+}): Promise<User> {
+  return request<User>('/me', { method: 'PATCH', body });
+}

@@ -17,6 +17,8 @@ export type RootStackParamList = {
   Signup: undefined;
   Main: undefined;
   NewMessage: undefined;
+  NewGroup: undefined;
+  EditProfile: undefined;
   Chat: { conversationId: string; title: string };
   Thread: { conversationId: string; parentId: string; title: string };
 };
