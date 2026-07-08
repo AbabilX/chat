@@ -2,6 +2,8 @@ import React from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Screen } from '../../components/common/Screen';
 import { Avatar } from '../../components/common/Avatar';
+import { Icon } from '../../components/common/Icon';
+import { UploadingModal } from '../../components/common/UploadingModal';
 import { useAuthStore } from '../../store/authStore';
 import { useProfileImage } from '../../hooks/useProfileImage';
 import { colors, radius, spacing, typography } from '../../theme';
@@ -31,7 +33,7 @@ export function EditProfileScreen() {
             {busy === 'avatar_url' ? (
               <ActivityIndicator size="small" color={colors.text} />
             ) : (
-              <Text style={styles.avatarBadgeText}>+</Text>
+              <Icon name="camera" color={colors.text} size={16} />
             )}
           </View>
         </Pressable>
@@ -39,6 +41,7 @@ export function EditProfileScreen() {
 
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.handle}>@{user?.username}</Text>
+      <UploadingModal visible={!!busy} />
     </Screen>
   );
 }
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarBadgeText: { fontSize: 18, color: colors.text, marginTop: -2 },
   name: { ...typography.title, color: colors.text, marginTop: spacing.md, marginLeft: spacing.lg },
   handle: { ...typography.body, color: colors.textMuted, marginLeft: spacing.lg, marginTop: 2 },
 });

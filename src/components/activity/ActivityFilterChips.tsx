@@ -34,15 +34,21 @@ export function ActivityFilterChips({ value, onChange }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row: { paddingHorizontal: spacing.lg, gap: spacing.sm, paddingBottom: spacing.md },
-  chip: {
+  row: {
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: radius.pill,
+    gap: spacing.sm,
+    paddingBottom: spacing.md,
+    alignItems: 'center',
+  },
+  chip: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.sm,
     borderWidth: 1,
     borderColor: colors.border,
   },
   chipActive: { backgroundColor: colors.surfaceAlt, borderColor: colors.surfaceAlt },
-  label: { ...typography.body, color: colors.textMuted },
+  label: { ...typography.meta, color: colors.textMuted },
   labelActive: { color: colors.text, fontWeight: '600' },
 });

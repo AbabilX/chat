@@ -37,7 +37,8 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer theme={navTheme}>
-      <Stack.Navigator screenOptions={{ headerTitleStyle: { color: colors.text } }}>
+      <Stack.Navigator
+        screenOptions={{ headerTitleStyle: { color: colors.text }, headerTintColor: colors.text }}>
         {token ? (
           <>
             <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />

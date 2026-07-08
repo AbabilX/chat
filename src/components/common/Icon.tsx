@@ -1,58 +1,44 @@
 import React from 'react';
-import Svg, { Path, Circle, Line } from 'react-native-svg';
+import { HugeiconsIcon } from '@hugeicons/react-native';
+import {
+  Home01Icon,
+  BubbleChatIcon,
+  Notification03Icon,
+  Search01Icon,
+  Menu01Icon,
+  ArrowLeft01Icon,
+  MoreVerticalIcon,
+  PencilEdit02Icon,
+  Logout01Icon,
+  Camera01Icon,
+  UserGroup03Icon,
+  PlusSignIcon,
+  Mail01Icon,
+  Settings01Icon,
+} from '@hugeicons/core-free-icons';
 
-export type IconName = 'home' | 'dms' | 'activity' | 'search' | 'more';
-type Props = { name: IconName; color: string; size?: number };
+// Every icon in the app renders from Hugeicons through this one wrapper, so the
+// rest of the code just says <Icon name="back" /> and never imports the library.
+const ICONS = {
+  home: Home01Icon,
+  dms: BubbleChatIcon,
+  activity: Notification03Icon,
+  search: Search01Icon,
+  more: Menu01Icon,
+  back: ArrowLeft01Icon,
+  menu: MoreVerticalIcon,
+  edit: PencilEdit02Icon,
+  logout: Logout01Icon,
+  camera: Camera01Icon,
+  group: UserGroup03Icon,
+  add: PlusSignIcon,
+  mail: Mail01Icon,
+  settings: Settings01Icon,
+} as const;
 
-// Feather-style line icons. Self-contained SVG — no font linking needed.
-export function Icon({ name, color, size = 24 }: Props) {
-  const p = {
-    stroke: color,
-    strokeWidth: 2,
-    fill: 'none',
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-  const box = { width: size, height: size, viewBox: '0 0 24 24' };
+export type IconName = keyof typeof ICONS;
+type Props = { name: IconName; color: string; size?: number; strokeWidth?: number };
 
-  switch (name) {
-    case 'home':
-      return (
-        <Svg {...box}>
-          <Path {...p} d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <Path {...p} d="M9 22V12h6v10" />
-        </Svg>
-      );
-    case 'dms':
-      return (
-        <Svg {...box}>
-          <Path
-            {...p}
-            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
-          />
-        </Svg>
-      );
-    case 'activity':
-      return (
-        <Svg {...box}>
-          <Path {...p} d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-          <Path {...p} d="M13.73 21a2 2 0 0 1-3.46 0" />
-        </Svg>
-      );
-    case 'search':
-      return (
-        <Svg {...box}>
-          <Circle {...p} cx="11" cy="11" r="8" />
-          <Line {...p} x1="21" y1="21" x2="16.65" y2="16.65" />
-        </Svg>
-      );
-    case 'more':
-      return (
-        <Svg {...box}>
-          <Circle {...p} cx="12" cy="12" r="1" />
-          <Circle {...p} cx="19" cy="12" r="1" />
-          <Circle {...p} cx="5" cy="12" r="1" />
-        </Svg>
-      );
-  }
+export function Icon({ name, color, size = 24, strokeWidth = 2 }: Props) {
+  return <HugeiconsIcon icon={ICONS[name]} size={size} color={color} strokeWidth={strokeWidth} />;
 }

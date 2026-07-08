@@ -4,7 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ConversationListScreen } from '../screens/conversations/ConversationListScreen';
 import { HomeScreen } from '../screens/home/HomeScreen';
 import { ActivityScreen } from '../screens/activity/ActivityScreen';
-import { SearchScreen, MoreScreen } from '../screens/placeholder/Placeholders';
+import { SearchScreen } from '../screens/placeholder/Placeholders';
+import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { Icon, IconName } from '../components/common/Icon';
 import { colors } from '../theme';
 import type { TabParamList } from './types';
@@ -50,7 +51,7 @@ export function MainTabs() {
         component={SearchScreen}
         options={{ tabBarIcon: icon('search') }}
       />
-      <Tab.Screen name="More" component={MoreScreen} options={{ tabBarIcon: icon('more') }} />
+      <Tab.Screen name="More" component={ProfileScreen} options={{ tabBarIcon: icon('more') }} />
     </Tab.Navigator>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { pickImage } from '../utils/imagePicker';
+import { pickImage, CropShape } from '../utils/imagePicker';
 import { uploadImage } from '../api/media';
 import { updateProfile } from '../api/users';
 import { useAuthStore } from '../store/authStore';
@@ -13,9 +13,9 @@ export function useProfileImage() {
   const setUser = useAuthStore((s) => s.setUser);
   const [busy, setBusy] = useState<Field | null>(null);
 
-  const change = async (field: Field) => {
+  const change = async (field: Field, shape: CropShape) => {
     try {
-      const picked = await pickImage();
+      const picked = await pickImage(shape);
       if (!picked) return;
       setBusy(field);
       const url = await uploadImage(picked.uri, picked.mime);
@@ -28,5 +28,9 @@ export function useProfileImage() {
     }
   };
 
-  return { busy, changeAvatar: () => change('avatar_url'), changeCover: () => change('cover_url') };
+  return {
+    busy,
+    changeAvatar: () => change('avatar_url', 'square'),
+    changeCover: () => change('cover_url', 'wide'),
+  };
 }

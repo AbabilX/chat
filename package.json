@@ -10,6 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@hugeicons/core-free-icons": "^4.2.2",
+    "@hugeicons/react-native": "^1.0.15",
     "@react-native-async-storage/async-storage": "^3.1.1",
     "@react-native-clipboard/clipboard": "^1.16.3",
     "@react-native/new-app-screen": "0.86.0",
@@ -17,10 +19,14 @@
     "@react-navigation/native": "^7.3.7",
     "@react-navigation/native-stack": "^7.17.9",
     "@shopify/flash-list": "^2.3.2",
+    "@tanstack/query-async-storage-persister": "^5.101.2",
     "@tanstack/react-query": "^5.101.2",
+    "@tanstack/react-query-persist-client": "^5.101.2",
     "react": "19.2.3",
     "react-native": "0.86.0",
+    "react-native-blob-util": "^0.24.10",
     "react-native-gesture-handler": "^3.0.2",
+    "react-native-image-crop-picker": "^0.51.1",
     "react-native-image-picker": "^8.2.1",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.25.2",

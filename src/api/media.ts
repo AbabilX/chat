@@ -1,3 +1,4 @@
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import { request } from './client';
 
 export type Presigned = {
@@ -12,15 +13,20 @@ export function presign(mime: string): Promise<Presigned> {
 }
 
 // PUT the local file straight to R2 using the presigned URL (no auth header).
+// We stream the file from disk via blob-util — plain fetch().blob() uploads a
+// 0-byte body on Android, which silently stores an empty (broken) image.
 export async function uploadToR2(uploadUrl: string, uri: string, mime: string): Promise<void> {
-  const file = await fetch(uri);
-  const blob = await file.blob();
-  const res = await fetch(uploadUrl, {
-    method: 'PUT',
-    headers: { 'Content-Type': mime },
-    body: blob,
-  });
-  if (!res.ok) throw new Error(`upload failed: HTTP ${res.status}`);
+  const path = uri.replace(/^file:\/\//, '');
+  const res = await ReactNativeBlobUtil.fetch(
+    'PUT',
+    uploadUrl,
+    { 'Content-Type': mime },
+    ReactNativeBlobUtil.wrap(path),
+  );
+  const status = res.info().status;
+  if (status < 200 || status >= 300) {
+    throw new Error(`upload failed: HTTP ${status}`);
+  }
 }
 
 // Full flow: presign -> upload -> return the public URL to store on the profile.
