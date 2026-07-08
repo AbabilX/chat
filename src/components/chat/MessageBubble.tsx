@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Avatar } from '../common/Avatar';
+import { ReactionRow } from './ReactionRow';
 import { colors, spacing, typography } from '../../theme';
 import { clockTime } from '../../utils/time';
 import type { Message } from '../../api/types';
@@ -11,11 +12,19 @@ type Props = {
   avatarUri?: string | null;
   showHeader: boolean;
   onPress?: () => void;
+  onLongPress?: () => void;
 };
 
-export function MessageBubble({ message, name, avatarUri, showHeader, onPress }: Props) {
+export function MessageBubble({
+  message,
+  name,
+  avatarUri,
+  showHeader,
+  onPress,
+  onLongPress,
+}: Props) {
   return (
-    <Pressable onPress={onPress} style={styles.row}>
+    <Pressable onPress={onPress} onLongPress={onLongPress} style={styles.row}>
       <View style={styles.gutter}>
         {showHeader ? <Avatar name={name} uri={avatarUri} size={36} /> : null}
       </View>
@@ -29,6 +38,7 @@ export function MessageBubble({ message, name, avatarUri, showHeader, onPress }:
         <Text style={[styles.text, message.pending && styles.pending]}>
           {message.body}
         </Text>
+        <ReactionRow reactions={message.reactions} />
         {message.reply_count > 0 ? (
           <Text style={styles.replies}>{message.reply_count} replies</Text>
         ) : null}

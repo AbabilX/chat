@@ -23,6 +23,14 @@ export function clockTime(iso: string): string {
   });
 }
 
+// Full stamp for thread rows ("25 Jun at 11:54").
+export function fullTime(iso: string): string {
+  const d = new Date(iso);
+  const date = d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+  const time = d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false });
+  return `${date} at ${time}`;
+}
+
 // Divider label for a day of messages ("Today", "11 Jun").
 export function dayLabel(iso: string): string {
   const d = new Date(iso);

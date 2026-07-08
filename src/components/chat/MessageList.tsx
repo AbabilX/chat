@@ -11,10 +11,17 @@ type Props = {
   resolve: (id: string) => MemberInfo;
   onLoadOlder: () => void;
   onPressMessage?: (message: Message) => void;
+  onLongPressMessage?: (message: Message) => void;
 };
 
 // Inverted FlashList: cache stays ascending, we reverse for newest-at-bottom.
-export function MessageList({ messages, resolve, onLoadOlder, onPressMessage }: Props) {
+export function MessageList({
+  messages,
+  resolve,
+  onLoadOlder,
+  onPressMessage,
+  onLongPressMessage,
+}: Props) {
   const rows = useMemo(() => buildRows(messages).reverse(), [messages]);
 
   return (
@@ -34,6 +41,9 @@ export function MessageList({ messages, resolve, onLoadOlder, onPressMessage }: 
             avatarUri={info.uri}
             showHeader={item.showHeader}
             onPress={onPressMessage ? () => onPressMessage(item.message) : undefined}
+            onLongPress={
+              onLongPressMessage ? () => onLongPressMessage(item.message) : undefined
+            }
           />
         );
       }}

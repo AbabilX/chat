@@ -2,12 +2,9 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ConversationListScreen } from '../screens/conversations/ConversationListScreen';
-import {
-  HomeScreen,
-  ActivityScreen,
-  SearchScreen,
-  MoreScreen,
-} from '../screens/placeholder/Placeholders';
+import { HomeScreen } from '../screens/home/HomeScreen';
+import { ActivityScreen } from '../screens/activity/ActivityScreen';
+import { SearchScreen, MoreScreen } from '../screens/placeholder/Placeholders';
 import { Icon, IconName } from '../components/common/Icon';
 import { colors } from '../theme';
 import type { TabParamList } from './types';

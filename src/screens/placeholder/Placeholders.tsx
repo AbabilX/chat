@@ -16,12 +16,6 @@ function Stub({ title, subtitle }: { title: string; subtitle: string }) {
   );
 }
 
-export const HomeScreen = () => (
-  <Stub title="Home" subtitle="Your channels and activity land here soon." />
-);
-export const ActivityScreen = () => (
-  <Stub title="Activity" subtitle="Mentions and reactions land here soon." />
-);
 export const SearchScreen = () => (
   <Stub title="Search" subtitle="Search people and messages here soon." />
 );

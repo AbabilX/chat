@@ -46,6 +46,7 @@ func (s *Server) Router() http.Handler {
 			r.Get("/me", s.handleMe)
 			r.Get("/users/search", s.handleUserSearch)
 			r.Get("/conversations", s.handleConversationList)
+			r.Get("/activity", s.handleActivity)
 			r.Post("/conversations", s.handleCreateConversation)
 			r.Get("/conversations/{id}/messages", s.handleMessages)
 			r.Put("/messages/{id}/reaction", s.handleSetReaction)

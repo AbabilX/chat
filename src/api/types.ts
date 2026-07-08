@@ -10,6 +10,8 @@ export type User = {
   created_at: string;
 };
 
+export type Reaction = { emoji: string; count: number; reacted: boolean };
+
 export type Message = {
   id: string;
   conversation_id: string;
@@ -20,9 +22,24 @@ export type Message = {
   body: string;
   reply_count: number;
   created_at: string;
+  reactions?: Reaction[];
   // client-only: optimistic send state before server ack.
   pending?: boolean;
   client_id?: string;
+};
+
+export type ActivityItem = {
+  kind: 'mention' | 'thread';
+  message: Message;
+  unread: boolean;
+};
+
+export type MessageActionResult = {
+  message_id: string;
+  conversation_id: string;
+  seq: number;
+  reactions: Reaction[];
+  saved: boolean;
 };
 
 export type Conversation = {

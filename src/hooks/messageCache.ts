@@ -1,6 +1,6 @@
 import { queryClient } from '../queryClient';
 import { conversationsKey } from './useConversations';
-import type { Message } from '../api/types';
+import type { Message, MessageActionResult } from '../api/types';
 import type { AckPayload } from '../ws/frames';
 
 // Cache holds an ascending (oldest -> newest) array per conversation.
@@ -31,6 +31,15 @@ export function reconcileAck(convId: string, ack: AckPayload) {
       m.client_id === ack.client_id
         ? { ...m, id: ack.message_id, seq: ack.seq, created_at: ack.created_at, pending: false }
         : m,
+    ),
+  );
+}
+
+// Apply a reaction/save toggle result to the matching message in cache.
+export function applyMessageAction(convId: string, result: MessageActionResult) {
+  setMessages(convId, (prev) =>
+    prev.map((m) =>
+      m.id === result.message_id ? { ...m, reactions: result.reactions } : m,
     ),
   );
 }
