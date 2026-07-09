@@ -10,25 +10,26 @@ import (
 )
 
 type User struct {
-	ID           string    `json:"id"`
-	Email        string    `json:"email"`
-	Username     string    `json:"username"`
-	Phone        string    `json:"phone"`
-	DisplayName  string    `json:"display_name"`
-	AvatarURL    *string   `json:"avatar_url"`
-	CoverURL     *string   `json:"cover_url"`
-	PasswordHash string    `json:"-"`
-	CreatedAt    time.Time `json:"created_at"`
+	ID                  string     `json:"id"`
+	Email               string     `json:"email"`
+	Username            string     `json:"username"`
+	Phone               string     `json:"phone"`
+	DisplayName         string     `json:"display_name"`
+	AvatarURL           *string    `json:"avatar_url"`
+	CoverURL            *string    `json:"cover_url"`
+	PasswordHash        string     `json:"-"`
+	CreatedAt           time.Time  `json:"created_at"`
+	DeletionRequestedAt *time.Time `json:"deletion_requested_at"`
 }
 
 var ErrNotFound = errors.New("not found")
 
-const userCols = `id, email, username, phone, display_name, avatar_url, cover_url, password_hash, created_at`
+const userCols = `id, email, username, phone, display_name, avatar_url, cover_url, password_hash, created_at, deletion_requested_at`
 
 func scanUser(row pgx.Row) (*User, error) {
 	var u User
 	err := row.Scan(&u.ID, &u.Email, &u.Username, &u.Phone, &u.DisplayName,
-		&u.AvatarURL, &u.CoverURL, &u.PasswordHash, &u.CreatedAt)
+		&u.AvatarURL, &u.CoverURL, &u.PasswordHash, &u.CreatedAt, &u.DeletionRequestedAt)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return nil, ErrNotFound
 	}

@@ -15,6 +15,7 @@ import (
 	"chat-backend/internal/deliver"
 	"chat-backend/internal/media"
 	"chat-backend/internal/push"
+	"chat-backend/internal/reaper"
 	"chat-backend/internal/store"
 	"chat-backend/internal/ws"
 )
@@ -54,6 +55,11 @@ func main() {
 	deliverer := deliver.New(st, hub, push.NewClient())
 	gateway := ws.NewGateway(hub, st, deliverer, cfg.JWTSecret)
 	server := api.NewServer(cfg, st, gateway, deliverer, r2)
+
+	// Purge accounts whose 7-day deletion grace period has elapsed.
+	reaperCtx, stopReaper := context.WithCancel(context.Background())
+	defer stopReaper()
+	go reaper.New(st, r2, time.Hour).Run(reaperCtx)
 
 	addr := ":" + cfg.Port
 	log.Printf("listening on %s", addr)

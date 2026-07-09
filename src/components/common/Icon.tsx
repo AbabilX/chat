@@ -15,6 +15,7 @@ import {
   PlusSignIcon,
   Mail01Icon,
   Settings01Icon,
+  Delete02Icon,
 } from '@hugeicons/core-free-icons';
 
 // Every icon in the app renders from Hugeicons through this one wrapper, so the
@@ -34,6 +35,7 @@ const ICONS = {
   add: PlusSignIcon,
   mail: Mail01Icon,
   settings: Settings01Icon,
+  delete: Delete02Icon,
 } as const;
 
 export type IconName = keyof typeof ICONS;
