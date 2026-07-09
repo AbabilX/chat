@@ -16,6 +16,7 @@ import (
 )
 
 type R2 struct {
+	client    *s3.Client
 	presign   *s3.PresignClient
 	bucket    string
 	publicURL string
@@ -42,6 +43,7 @@ func New(cfg *config.Config) (*R2, error) {
 		publicURL = "https://" + publicURL
 	}
 	return &R2{
+		client:    client,
 		presign:   s3.NewPresignClient(client),
 		bucket:    cfg.R2Bucket,
 		publicURL: strings.TrimSuffix(publicURL, "/"),
@@ -76,4 +78,24 @@ func (r *R2) PresignUpload(ctx context.Context, mime string) (uploadURL, objectK
 
 func (r *R2) PublicURL(objectKey string) string {
 	return r.publicURL + "/" + objectKey
+}
+
+// ObjectKeyFromURL extracts the object key from a URL previously produced by
+// PublicURL, or "" if it doesn't belong to this bucket's public base.
+func (r *R2) ObjectKeyFromURL(url string) string {
+	prefix := r.publicURL + "/"
+	if !strings.HasPrefix(url, prefix) {
+		return ""
+	}
+	return strings.TrimPrefix(url, prefix)
+}
+
+// DeleteObject removes a single object from the bucket. Used for deep
+// account deletion (avatar, cover, message attachments).
+func (r *R2) DeleteObject(ctx context.Context, objectKey string) error {
+	_, err := r.client.DeleteObject(ctx, &s3.DeleteObjectInput{
+		Bucket: aws.String(r.bucket),
+		Key:    aws.String(objectKey),
+	})
+	return err
 }

@@ -16,3 +16,14 @@ export function updateProfile(body: {
 }): Promise<User> {
   return request<User>('/me', { method: 'PATCH', body });
 }
+
+// DELETE /me — schedules account deletion. The account enters a 7-day grace
+// period (logging back in cancels it); a backend reaper then permanently
+// purges DB rows and R2-stored avatar/cover/attachments.
+export function deleteAccount(): Promise<{
+  scheduled: boolean;
+  purge_at: string;
+  grace_seconds: number;
+}> {
+  return request('/me', { method: 'DELETE' });
+}

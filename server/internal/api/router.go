@@ -45,6 +45,7 @@ func (s *Server) Router() http.Handler {
 			r.Use(auth.Middleware(s.cfg.JWTSecret))
 			r.Get("/me", s.handleMe)
 			r.Patch("/me", s.handleUpdateMe)
+			r.Delete("/me", s.handleDeleteMe)
 			r.Get("/users/search", s.handleUserSearch)
 			r.Get("/conversations", s.handleConversationList)
 			r.Get("/activity", s.handleActivity)

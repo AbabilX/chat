@@ -98,6 +98,14 @@ func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusUnauthorized, "invalid email or password")
 		return
 	}
+	// Logging back in during the grace period reactivates a pending deletion.
+	if user.DeletionRequestedAt != nil {
+		if err := s.store.CancelDeletion(r.Context(), user.ID); err != nil {
+			writeError(w, http.StatusInternalServerError, "reactivation failed")
+			return
+		}
+		user.DeletionRequestedAt = nil
+	}
 	s.respondWithToken(w, user)
 }
 
